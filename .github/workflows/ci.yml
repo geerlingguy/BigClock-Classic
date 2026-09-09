@@ -6,36 +6,52 @@ on:
     tags: ['[0-9]+.[0-9]+.[0-9]+']
   pull_request:
 
+env:
+  RETRO68: /Retro68-build/toolchain
+
 jobs:
   build:
-    name: Build ${{ matrix.arch }}
+    name: Build 68k, PowerPC, and fat
     runs-on: ubuntu-latest
     container: ghcr.io/autc04/retro68
-    strategy:
-      matrix:
-        include:
-          - arch: ppc
-            toolchain: /Retro68-build/toolchain/powerpc-apple-macos/cmake/retroppc.toolchain.cmake
-          - arch: 68k
-            toolchain: /Retro68-build/toolchain/m68k-apple-macos/cmake/retro68.toolchain.cmake
     steps:
       - uses: actions/checkout@v7
 
-      - name: Build
+      - name: Build PowerPC
         run: |
-          mkdir build && cd build
-          cmake .. -DCMAKE_TOOLCHAIN_FILE=${{ matrix.toolchain }}
+          mkdir build-ppc && cd build-ppc
+          cmake .. -DCMAKE_TOOLCHAIN_FILE=$RETRO68/powerpc-apple-macos/cmake/retroppc.toolchain.cmake
           make
 
-      - name: Rename artifacts
+      - name: Build 68k
+        run: |
+          mkdir build-68k && cd build-68k
+          cmake .. -DCMAKE_TOOLCHAIN_FILE=$RETRO68/m68k-apple-macos/cmake/retro68.toolchain.cmake
+          make
+
+      - name: Build fat binary
+        run: |
+          mkdir build-fat
+          $RETRO68/bin/Rez $RETRO68/m68k-apple-macos/RIncludes/RetroPPCAPPL.r \
+            -I$RETRO68/m68k-apple-macos/RIncludes \
+            -DCFRAG_NAME='"BigClock"' \
+            --copy build-68k/BigClock.code.bin \
+            --data build-ppc/BigClock.pef build-ppc/icon.rsrc.bin \
+            -t APPL -c BgCk \
+            -o build-fat/BigClock.bin --cc build-fat/BigClock.dsk
+
+      - name: Collect artifacts
         run: |
           mkdir dist
-          cp build/BigClock.bin dist/BigClock-${{ matrix.arch }}.bin
-          cp build/BigClock.dsk dist/BigClock-${{ matrix.arch }}.dsk
+          for arch in ppc 68k fat; do
+            cp build-$arch/BigClock.bin dist/BigClock-$arch.bin
+            cp build-$arch/BigClock.dsk dist/BigClock-$arch.dsk
+          done
+          ls -l dist
 
       - uses: actions/upload-artifact@v7
         with:
-          name: BigClock-${{ matrix.arch }}
+          name: BigClock
           path: dist/*
 
   release:
@@ -48,8 +64,8 @@ jobs:
     steps:
       - uses: actions/download-artifact@v8
         with:
+          name: BigClock
           path: dist
-          merge-multiple: true
 
       - uses: softprops/action-gh-release@v3
         with:
