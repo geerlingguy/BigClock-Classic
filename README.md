@@ -1,5 +1,7 @@
 # Big Clock for Classic Mac OS
 
+[![Build and Release](https://github.com/geerlingguy/BigClock-Classic/actions/workflows/ci.yml/badge.svg)](https://github.com/geerlingguy/BigClock-Classic/actions/workflows/ci.yml)
+
 A Big Clock for Classic Mac OS. That's it!
 
 <p align="center"><img alt="BigClock on Mac OS 8.5" src="screenshot.png" height="auto" width="600"></p>
