@@ -45,6 +45,8 @@ EOF
 
 Same as the PowerPC build, grab the `.bin` or `.dsk`, and run it!
 
+The 68k version requires 32-Bit QuickDraw, which isn't supported on some of the oldest Macintoshes. But it should work back to at least System 7.0 or 7.1 on Mac II, LC, Quadra, etc.
+
 ## Usage Notes
 
 On laptops (like my iBook G3 Clamshell), 'power cycling' can disrupt the clock display's regularity. If you're seeing seconds jump a bit, go to Control Panels > Energy Saver > Advanced Settings > (uncheck) 'Allow processor cycling'.
