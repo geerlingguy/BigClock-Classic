@@ -19,11 +19,10 @@ jobs:
 
       - name: Determine version
         run: |
-          if [[ "$GITHUB_REF" == refs/tags/* ]]; then
-            echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
-          else
-            echo "VERSION=0.0.0-$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
-          fi
+          case "$GITHUB_REF" in
+            refs/tags/*) echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV ;;
+            *) echo "VERSION=0.0.0-$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV ;;
+          esac
 
       - name: Build PowerPC
         run: |
