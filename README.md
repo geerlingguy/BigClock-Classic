@@ -10,7 +10,9 @@ It should work on any PowerPC Macintosh running System 7.1.2 or later (including
 
 ## Download
 
-TODO: Add download link to 'releases' page.
+Download the [latest release](https://github.com/geerlingguy/BigClock-Classic/releases/latest).
+
+Grab the appropriate build for your Mac's architecture (68k or PPC).
 
 ## Compiling for PowerPC
 
@@ -33,7 +35,7 @@ Copy `BigClock.bin` over to your Classic Mac and expand it with Stuffit Expander
 
 ## Compiling for 68k
 
-This is untested, but you _should_ be able to build BigClock for 68k Macs using the following command:
+Build BigClock for 68k Macs using the following command:
 
 ```
 docker run --rm --platform linux/amd64 -v "$(pwd)":/root -i ghcr.io/autc04/retro68 /bin/bash <<'EOF'
