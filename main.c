@@ -27,6 +27,10 @@
 #define kQuitItem  1
 #define kAboutAlert 128
 
+#ifndef BIGCLOCK_VERSION
+#define BIGCLOCK_VERSION "0.0.0"
+#endif
+
 #define WIN_W 560
 #define WIN_H 170
 #define TIME_SIZE 72
@@ -156,6 +160,9 @@ static void DoMenu(long choice)
     switch (menu) {
     case kAppleMenu:
         if (item == kAboutItem) {
+            Str255 ver;
+            CToP(BIGCLOCK_VERSION, ver);
+            ParamText(ver, "\p", "\p", "\p");
             NoteAlert(kAboutAlert, NULL);
         } else {
             GetMenuItemText(GetMenuHandle(kAppleMenu), item, name);

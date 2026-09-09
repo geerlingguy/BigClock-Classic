@@ -106,7 +106,7 @@ resource 'BNDL' (128, purgeable) {
 #include "Dialogs.r"
 
 resource 'ALRT' (128, purgeable) {
-	{ 0, 0, 145, 400 },
+	{ 0, 0, 175, 400 },
 	128,
 	{
 		OK, visible, silent,
@@ -119,12 +119,12 @@ resource 'ALRT' (128, purgeable) {
 
 resource 'DITL' (128, purgeable) {
 	{
-		{ 110, 310, 130, 380 },
+		{ 140, 310, 160, 380 },
 		Button { enabled, "OK" };
 
-		{ 10, 60, 100, 390 },
+		{ 10, 60, 130, 390 },
 		StaticText { disabled,
-			"Vibe-coded in 2026 for a VCF Midwest NTP timing demonstration "
+			"Version ^0\r\rVibe-coded in 2026 for a VCF Midwest NTP timing demonstration "
 			"by Jeff Geerling using Claude Fable 5.1 Medium.\r\rMoof!" };
 	}
 };
