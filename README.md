@@ -1,12 +1,20 @@
 # Big Clock for Classic Mac OS
 
-A Big Clock for Classic Mac OS. That's all there is to it.
+A Big Clock for Classic Mac OS. That's it!
 
-Tested on Mac OS 9.2, but should work on other versions (TODO which?).
+<p align="center"><img alt="BigClock on Mac OS 8.5" src="screenshot.png" height="auto" width="600"></p>
 
-## Compiling
+This was built for and tested on an iBook G3 running Mac OS 9.2.
 
-On another Mac (preferably a nice fast one), set up a Retro68 build environment using Docker:
+It should work on any PowerPC Macintosh running System 7.1.2 or later (including Mac OS 7.6 or later). It will also run in the Classic environment on Mac OS X 10.0 through 10.4.11.
+
+## Download
+
+TODO: Add download link to 'releases' page.
+
+## Compiling for PowerPC
+
+On a modern Mac, compile within a [Retro68](https://github.com/autc04/Retro68) Docker build environment:
 
 ```
 docker run --rm -v "$(pwd)":/root -i ghcr.io/autc04/retro68 /bin/bash <<'EOF'
@@ -22,6 +30,20 @@ This should produce artifacts including:
   - `build/BigClock.dsk`
 
 Copy `BigClock.bin` over to your Classic Mac and expand it with Stuffit Expander.
+
+## Compiling for 68k
+
+This is untested, but you _should_ be able to build BigClock for 68k Macs using the following command:
+
+```
+docker run --rm --platform linux/amd64 -v "$(pwd)":/root -i ghcr.io/autc04/retro68 /bin/bash <<'EOF'
+cd /root && rm -rf build68k && mkdir build68k && cd build68k
+cmake .. -DCMAKE_TOOLCHAIN_FILE=/Retro68-build/toolchain/m68k-apple-macos/cmake/retro68.toolchain.cmake
+make
+EOF
+```
+
+Same as the PowerPC build, grab the `.bin` or `.dsk`, and run it!
 
 ## Usage Notes
 
